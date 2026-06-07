@@ -1,0 +1,443 @@
+/* Importar fuentes modernas desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Paleta de Colores Principal */
+  --bg-deep: #08080f;
+  --bg-dark: #0f0f1c;
+  --bg-card: rgba(22, 22, 38, 0.7);
+  --bg-card-hover: rgba(30, 30, 50, 0.85);
+  --border-glow: rgba(138, 43, 226, 0.2);
+  --border-glow-active: rgba(138, 43, 226, 0.5);
+  
+  /* Acentos y Neón */
+  --gold: #ffd700;
+  --gold-hover: #ffea53;
+  --gold-glow: rgba(255, 215, 0, 0.35);
+  --violet: #8a2be2;
+  --violet-glow: rgba(138, 43, 226, 0.4);
+  --cyan: #00e5ff;
+  --cyan-glow: rgba(0, 229, 255, 0.4);
+  --green: #00e676;
+  --red: #ff1744;
+  --warning: #ff9100;
+
+  /* Texto */
+  --text-primary: #ffffff;
+  --text-secondary: #a0aec0;
+  --text-muted: #718096;
+
+  /* Fuentes */
+  --font-display: 'Outfit', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  
+  /* Sombras y Efectos */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.8);
+  --glass-blur: blur(12px);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 12px;
+}
+
+/* Reset de estilos */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+/* Barras de Desplazamiento */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: #252538;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--violet);
+}
+
+/* Efectos Glassmorphic */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.glass-panel:hover {
+  border-color: var(--border-glow);
+  box-shadow: 0 8px 30px var(--violet-glow);
+}
+
+.glass-panel-gold {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.glass-panel-gold:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 30px var(--gold-glow);
+}
+
+/* Botones Premium */
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), #cca600);
+  color: #000000;
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 24px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px var(--gold-glow);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, var(--gold-hover), var(--gold));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+}
+
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+.btn-violet {
+  background: linear-gradient(135deg, var(--violet), #5d00a8);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 24px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px var(--violet-glow);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-violet:hover {
+  background: linear-gradient(135deg, #a03eff, var(--violet));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(138, 43, 226, 0.6);
+}
+
+.btn-violet:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius);
+  padding: 11px 23px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Estilos de Entrada de Texto */
+.input-field {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  color: #ffffff;
+  font-size: 1rem;
+  width: 100%;
+  transition: var(--transition);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+}
+
+.input-field::placeholder {
+  color: var(--text-muted);
+}
+
+/* Animaciones */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 5px var(--violet-glow); }
+  50% { box-shadow: 0 0 20px var(--violet-glow); }
+  100% { box-shadow: 0 0 5px var(--violet-glow); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes spinSlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+/* Botón flotante de WhatsApp */
+.wsp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: #25d366;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  cursor: pointer;
+  z-index: 1000;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.wsp-float:hover {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+/* Contenedores Principales */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  height: 70px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: rgba(8, 8, 15, 0.8);
+  backdrop-filter: var(--glass-blur);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--gold), #cca600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo span {
+  background: linear-gradient(135deg, #ffffff, var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Grid del Casino */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.game-card {
+  overflow: hidden;
+  position: relative;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  cursor: pointer;
+}
+
+.game-card-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: var(--transition);
+  z-index: 1;
+}
+
+.game-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(8, 8, 15, 0.95) 20%, rgba(8, 8, 15, 0.4) 60%, rgba(8, 8, 15, 0.1) 100%);
+  z-index: 2;
+}
+
+.game-card-content {
+  position: relative;
+  z-index: 3;
+}
+
+.game-card:hover .game-card-bg {
+  transform: scale(1.08);
+}
+
+.game-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+}
+
+.game-card-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+/* Estilos de Tabla */
+.custom-table-container {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  text-align: left;
+}
+
+.custom-table th {
+  padding: 16px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.custom-table td {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 0.95rem;
+}
+
+.custom-table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.01);
+}
+
+/* Badges */
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.badge-pending {
+  background-color: rgba(255, 145, 0, 0.15);
+  color: var(--warning);
+}
+
+.badge-approved {
+  background-color: rgba(0, 230, 118, 0.15);
+  color: var(--green);
+}
+
+.badge-rejected {
+  background-color: rgba(255, 23, 68, 0.15);
+  color: var(--red);
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+  }
+  .main-content {
+    padding: 16px;
+  }
+  .btn-gold, .btn-violet {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+}
