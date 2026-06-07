@@ -796,6 +796,44 @@ app.post('/api/admin/users/status', authenticateToken, requireAdmin, async (req,
   }
 });
 
+app.post('/api/admin/users/create', authenticateToken, requireAdmin, async (req, res) => {
+  const { username, password, balance } = req.body;
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Debe ingresar usuario y contraseña' });
+  }
+
+  try {
+    const existing = await dbQuery.get(`SELECT id FROM users WHERE username = ?`, [username]);
+    if (existing) {
+      return res.status(400).json({ error: 'El nombre de usuario ya está registrado' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+    const initBalance = balance ? parseFloat(balance) : 0.0;
+
+    const result = await dbQuery.run(
+      `INSERT INTO users (username, password_hash, role, balance) VALUES (?, ?, 'user', ?)`,
+      [username, hash, initBalance]
+    );
+
+    res.json({ 
+      success: true, 
+      user: { 
+        id: result.lastID, 
+        username, 
+        role: 'user', 
+        balance: initBalance,
+        status: 'active'
+      } 
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al registrar el usuario desde el panel de administración' });
+  }
+});
+
+
 app.get('/api/admin/deposits', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const deposits = await dbQuery.all(`

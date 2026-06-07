@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext, BACKEND_URL } from '../App';
 import { 
   Users, CheckCircle2, XCircle, DollarSign, 
-  Settings, UserX, UserCheck, Plus, Minus 
+  Settings, UserX, UserCheck, Plus, Minus, UserPlus
 } from 'lucide-react';
 
 export default function Admin() {
@@ -17,6 +17,14 @@ export default function Admin() {
   
   // Estados de modales / inputs temporales
   const [previewImage, setPreviewImage] = useState(null);
+
+  // Creación de nuevos usuarios
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [newUsername, setNewUsername] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newBalance, setNewBalance] = useState('');
+  const [createError, setCreateError] = useState('');
+  const [createSuccess, setCreateSuccess] = useState('');
 
   useEffect(() => {
     fetchStats();
@@ -190,6 +198,55 @@ export default function Admin() {
       }
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  // Crear Usuario
+  const handleCreateUser = async (e) => {
+    e.preventDefault();
+    setCreateError('');
+    setCreateSuccess('');
+
+    if (!newUsername || !newPassword) {
+      setCreateError('Por favor complete el nombre de usuario y contraseña.');
+      return;
+    }
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/admin/users/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ 
+          username: newUsername, 
+          password: newPassword, 
+          balance: newBalance ? parseFloat(newBalance) : 0.0 
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setCreateError(data.error || 'Error al crear el usuario.');
+        return;
+      }
+
+      setCreateSuccess(`¡Usuario ${newUsername} creado con éxito!`);
+      setNewUsername('');
+      setNewPassword('');
+      setNewBalance('');
+      fetchUsers();
+      fetchStats();
+      
+      // Auto-ocultar el formulario tras 2 segundos
+      setTimeout(() => {
+        setShowCreateForm(false);
+        setCreateSuccess('');
+      }, 2000);
+    } catch (err) {
+      console.error(err);
+      setCreateError('Error de red al intentar crear el usuario.');
     }
   };
 
@@ -449,17 +506,113 @@ export default function Admin() {
       {/* GESTIÓN DE USUARIOS */}
       {activeTab === 'users' && (
         <div className="glass-panel" style={{ padding: '24px', borderRadius: '16px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', gap: '12px', flexWrap: 'wrap' }}>
             <h2>Listado de Usuarios</h2>
-            <input 
-              type="text" 
-              className="input-field" 
-              placeholder="Buscar por usuario..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ maxWidth: '240px', padding: '8px' }}
-            />
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <button 
+                onClick={() => {
+                  setShowCreateForm(!showCreateForm);
+                  setCreateError('');
+                  setCreateSuccess('');
+                }}
+                className="btn-gold"
+                style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.9rem' }}
+              >
+                <UserPlus size={16} />
+                {showCreateForm ? 'Cancelar' : 'Crear Usuario'}
+              </button>
+              <input 
+                type="text" 
+                className="input-field" 
+                placeholder="Buscar por usuario..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{ maxWidth: '240px', padding: '8px', marginBottom: 0 }}
+              />
+            </div>
           </div>
+
+          {showCreateForm && (
+            <form onSubmit={handleCreateUser} className="glass-panel" style={{ 
+              padding: '20px', 
+              marginBottom: '24px', 
+              borderRadius: '12px', 
+              background: 'rgba(255, 255, 255, 0.02)',
+              border: '1px solid rgba(219, 189, 78, 0.2)',
+              animation: 'fadeIn 0.3s ease-out'
+            }}>
+              <h3 style={{ marginBottom: '16px', color: 'var(--gold)', fontSize: '1.1rem' }}>Registrar Nuevo Jugador</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '6px', color: 'var(--text-secondary)' }}>Usuario</label>
+                  <input 
+                    type="text" 
+                    className="input-field" 
+                    placeholder="Ej: juan_perez" 
+                    value={newUsername}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                    required
+                    style={{ width: '100%', padding: '10px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '6px', color: 'var(--text-secondary)' }}>Contraseña</label>
+                  <input 
+                    type="password" 
+                    className="input-field" 
+                    placeholder="••••••••" 
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                    style={{ width: '100%', padding: '10px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '6px', color: 'var(--text-secondary)' }}>Saldo Inicial ($)</label>
+                  <input 
+                    type="number" 
+                    className="input-field" 
+                    placeholder="Ej: 1000" 
+                    value={newBalance}
+                    onChange={(e) => setNewBalance(e.target.value)}
+                    min="0"
+                    step="any"
+                    style={{ width: '100%', padding: '10px' }}
+                  />
+                </div>
+              </div>
+
+              {createError && (
+                <div style={{ color: 'var(--red)', fontSize: '0.85rem', marginBottom: '16px' }}>
+                  ⚠️ {createError}
+                </div>
+              )}
+
+              {createSuccess && (
+                <div style={{ color: 'var(--green)', fontSize: '0.85rem', marginBottom: '16px' }}>
+                  ✓ {createSuccess}
+                </div>
+              )}
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+                <button 
+                  type="button" 
+                  onClick={() => setShowCreateForm(false)} 
+                  className="btn-outline"
+                  style={{ padding: '8px 16px' }}
+                >
+                  Cerrar
+                </button>
+                <button 
+                  type="submit" 
+                  className="btn-gold"
+                  style={{ padding: '8px 20px' }}
+                >
+                  Crear Jugador
+                </button>
+              </div>
+            </form>
+          )}
 
           <div className="custom-table-container">
             <table className="custom-table">
