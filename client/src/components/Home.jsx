@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../App';
-import { Bomb, Rocket, Disc, HelpCircle, Dices, Gamepad2 } from 'lucide-react';
+// No Lucide icons needed for games since we are using cover images
 
 export default function Home({ setView }) {
   const { user } = useContext(AuthContext);
@@ -10,73 +10,73 @@ export default function Home({ setView }) {
       id: 'game-mines',
       title: 'Mines (Minas)',
       desc: 'Encuentra las gemas ocultas y evita las minas explosivas. ¡Elige cuántas minas poner para aumentar tus ganancias!',
-      icon: <Bomb size={48} className="animate-float" style={{ color: 'var(--gold)' }} />,
-      bgGradient: 'linear-gradient(45deg, #1e1e38, #8a2be2)',
+      cover: 'https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=600&auto=format&fit=crop',
       label: 'Jugar Ahora',
+      rtp: '95'
     },
     {
       id: 'game-crash',
       title: 'Crash (Aviator)',
       desc: 'Apuesta en tiempo real mientras el avión sube. Retírate antes de que se estrelle para asegurar tu multiplicador.',
-      icon: <Rocket size={48} className="animate-float" style={{ color: 'var(--cyan)' }} />,
-      bgGradient: 'linear-gradient(45deg, #1e1e38, #00e5ff)',
+      cover: 'https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?q=80&w=600&auto=format&fit=crop',
       label: 'Jugar en Vivo',
+      rtp: '96'
     },
     {
       id: 'game-slots',
       title: 'Slots (Tragamonedas)',
       desc: 'Gira los 5 rodillos en busca de los sietes de oro y las combinaciones de frutas. ¡Hasta 9 líneas de pago activas!',
-      icon: <HelpCircle size={48} className="animate-float" style={{ color: 'var(--gold)' }} />,
-      bgGradient: 'linear-gradient(45deg, #1e1e38, #ffd700)',
+      cover: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?q=80&w=600&auto=format&fit=crop',
       label: 'Girar Rodillos',
+      rtp: '94'
     },
     {
       id: 'game-roulette',
       title: 'Ruleta Europea',
       desc: 'Haz tus apuestas al rojo/negro, par/impar, o a tu número de la suerte en nuestra ruleta europea en tiempo real.',
-      icon: <Disc size={48} className="animate-float" style={{ color: 'var(--green)' }} />,
-      bgGradient: 'linear-gradient(45deg, #1e1e38, #00e676)',
+      cover: 'https://images.unsplash.com/photo-1570800073900-344904a115ec?q=80&w=600&auto=format&fit=crop',
       label: 'Apostar',
+      rtp: '97.3'
     },
     {
       id: 'game-blackjack',
       title: 'Blackjack (Veintiuno)',
       desc: 'Juega al clásico juego de cartas contra la casa. Consigue 21 o supera al crupier sin pasarte para ganar 2x.',
-      icon: <Dices size={48} className="animate-float" style={{ color: 'var(--violet)' }} />,
-      bgGradient: 'linear-gradient(45deg, #1e1e38, #8a2be2)',
+      cover: 'https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=600&auto=format&fit=crop',
       label: 'Jugar Blackjack',
+      rtp: '99'
     },
     {
       id: 'game-plinko',
       title: 'Plinko',
       desc: 'Suelta la bola desde la cima y mira cómo rebota entre los clavos hasta caer en un multiplicador. ¡Hasta 110x de ganancia!',
-      icon: <Disc size={48} className="animate-float" style={{ color: 'var(--gold)' }} />,
-      bgGradient: 'linear-gradient(45deg, #1e1e38, #ff7782)',
+      cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop',
       label: 'Soltar Bola',
+      rtp: '96'
     },
     {
       id: 'game-dice',
       title: 'Dados (Dice)',
       desc: 'Elige tu margen y predice si la tirada será mayor o menor. Controla tu propia probabilidad y pagos de forma dinámica.',
-      icon: <Dices size={48} className="animate-float" style={{ color: 'var(--violet)' }} />,
-      bgGradient: 'linear-gradient(45deg, #1e1e38, #8a2be2)',
+      cover: 'https://images.unsplash.com/photo-1580234810907-b40315b76418?q=80&w=600&auto=format&fit=crop',
       label: 'Lanzar Dados',
+      rtp: '96'
     },
     {
       id: 'provider-slots',
       title: 'Slots de Proveedores',
-      desc: 'Juega a los títulos más conocidos del mercado como Gates of Olympus o Sweet Bonanza en pesos argentinos de forma gratuita.',
-      icon: <Gamepad2 size={48} className="animate-float" style={{ color: 'var(--gold)' }} />,
-      bgGradient: 'linear-gradient(45deg, #1e1e38, #dbbd4e)',
+      desc: 'Juega a los títulos más conocidos del mercado como Gates of Olympus o Sweet Bonanza de forma gratuita.',
+      cover: 'https://images.unsplash.com/photo-1534080391025-afb109627364?q=80&w=600&auto=format&fit=crop',
       label: 'Abrir Catálogo',
+      rtp: '96'
     },
     {
       id: 'game-jokers-jewels',
       title: "Joker's Jewels Real ($)",
       desc: 'El clásico y famoso tragamonedas de bufones y joyas. ¡Juega con tu saldo real para conseguir el gran premio de 1000x!',
-      icon: <Gamepad2 size={48} className="animate-float" style={{ color: 'var(--gold)' }} />,
-      bgGradient: 'linear-gradient(45deg, #1e1e38, #ffd700)',
+      cover: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=600&auto=format&fit=crop',
       label: 'Apostar Real',
+      rtp: '96'
     }
   ];
 
@@ -131,41 +131,28 @@ export default function Home({ setView }) {
         {games.map(game => (
           <div 
             key={game.id} 
-            className="glass-panel"
+            className="glass-panel game-card"
             onClick={() => setView(game.id)}
-            style={{
-              padding: '24px',
-              borderRadius: '16px',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              height: '320px',
-              background: `linear-gradient(135deg, rgba(15, 15, 28, 0.95), rgba(22, 22, 38, 0.95))`
-            }}
+            style={{ border: '1px solid rgba(255, 255, 255, 0.05)' }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div style={{
-                background: 'rgba(255,255,255,0.03)',
-                padding: '16px',
-                borderRadius: '12px',
-                border: '1px solid rgba(255,255,255,0.05)'
-              }}>
-                {game.icon}
+            <div className="game-card-bg" style={{ backgroundImage: `url(${game.cover})` }} />
+            
+            <div className="game-card-content" style={{ width: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
+                <span className="badge" style={{
+                  backgroundColor: 'rgba(255,215,0,0.08)',
+                  color: 'var(--gold)',
+                  border: '1px solid rgba(255,215,0,0.2)'
+                }}>RTP {game.rtp}%</span>
               </div>
-              <span className="badge" style={{
-                backgroundColor: 'rgba(255,215,0,0.08)',
-                color: 'var(--gold)',
-                border: '1px solid rgba(255,215,0,0.2)'
-              }}>RTP +95%</span>
-            </div>
 
-            <div>
-              <h3 style={{ fontSize: '1.4rem', marginBottom: '8px', color: 'white' }}>{game.title}</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: '1.4', marginBottom: '16px' }}>
+              <h3 className="game-card-title" style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'white', marginBottom: '4px' }}>
+                {game.title}
+              </h3>
+              <p className="game-card-desc" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', minHeight: '36px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                 {game.desc}
               </p>
-              <button className="btn-gold" style={{ width: '100%', padding: '10px' }}>
+              <button className="btn-gold" style={{ width: '100%', padding: '10px', fontSize: '0.85rem' }}>
                 {game.label}
               </button>
             </div>
