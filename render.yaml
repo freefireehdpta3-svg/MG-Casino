@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: mg-casino-backend
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: DATABASE_URL
+        sync: false # Te pedirá que pegues la URI de tu base de datos Postgres de Neon/Supabase
+      - key: JWT_SECRET
+        generateValue: true # Render generará una clave secreta segura automáticamente
