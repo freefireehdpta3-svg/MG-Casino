@@ -45,6 +45,22 @@ export default function Home({ setView }) {
       icon: <Dices size={48} className="animate-float" style={{ color: 'var(--violet)' }} />,
       bgGradient: 'linear-gradient(45deg, #1e1e38, #8a2be2)',
       label: 'Jugar Blackjack',
+    },
+    {
+      id: 'game-plinko',
+      title: 'Plinko',
+      desc: 'Suelta la bola desde la cima y mira cómo rebota entre los clavos hasta caer en un multiplicador. ¡Hasta 110x de ganancia!',
+      icon: <Disc size={48} className="animate-float" style={{ color: 'var(--gold)' }} />,
+      bgGradient: 'linear-gradient(45deg, #1e1e38, #ff7782)',
+      label: 'Soltar Bola',
+    },
+    {
+      id: 'game-dice',
+      title: 'Dados (Dice)',
+      desc: 'Elige tu margen y predice si la tirada será mayor o menor. Controla tu propia probabilidad y pagos de forma dinámica.',
+      icon: <Dices size={48} className="animate-float" style={{ color: 'var(--violet)' }} />,
+      bgGradient: 'linear-gradient(45deg, #1e1e38, #8a2be2)',
+      label: 'Lanzar Dados',
     }
   ];
 

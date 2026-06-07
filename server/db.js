@@ -257,6 +257,8 @@ async function initDb() {
     { key: 'rtp_crash', value: '96' },
     { key: 'rtp_slots', value: '94' },
     { key: 'rtp_roulette', value: '97.3' },
+    { key: 'rtp_plinko', value: '96' },
+    { key: 'rtp_dice', value: '96' },
     { key: 'admin_cvu', value: '0000003100012345678901' },
     { key: 'admin_alias', value: 'mg.casino.mp' },
     { key: 'admin_titular', value: 'MG Casino S.A.' }

@@ -215,6 +215,75 @@ function createDeck() {
   return deck;
 }
 
+// 6. PLINKO GAME LOGIC
+const PLINKO_MULTIPLIERS = {
+  8: [5.6, 1.6, 1.1, 0.6, 0.3, 0.6, 1.1, 1.6, 5.6],
+  12: [33, 11, 4, 1.5, 0.8, 0.4, 0.2, 0.4, 0.8, 1.5, 4, 11, 33],
+  16: [110, 41, 10, 5, 3, 1.5, 1, 0.5, 0.3, 0.5, 1, 1.5, 3, 5, 10, 41, 110]
+};
+
+function getPlinkoResult(rows, rtpSetting) {
+  const rtpVal = parseFloat(rtpSetting || 96);
+  const availableRows = [8, 12, 16];
+  const n = availableRows.includes(rows) ? rows : 12;
+  const multipliers = PLINKO_MULTIPLIERS[n];
+
+  let path = [];
+  let rightBounces = 0;
+  for (let i = 0; i < n; i++) {
+    const step = Math.random() < 0.5 ? 0 : 1;
+    path.push(step);
+    rightBounces += step;
+  }
+
+  let multiplier = multipliers[rightBounces];
+
+  // Control de RTP: Si el multiplicador es alto, aplicamos probabilidad de re-giro
+  if (multiplier > 2.0 && Math.random() * 100 > rtpVal) {
+    let attempts = 0;
+    while (multiplier > 2.0 && attempts < 10) {
+      path = [];
+      rightBounces = 0;
+      for (let i = 0; i < n; i++) {
+        const step = Math.random() < 0.5 ? 0 : 1;
+        path.push(step);
+        rightBounces += step;
+      }
+      multiplier = multipliers[rightBounces];
+      attempts++;
+    }
+  }
+
+  return {
+    path,
+    bucket: rightBounces,
+    multiplier
+  };
+}
+
+// 7. DICE GAME LOGIC
+function calculateDiceWin(target, mode, roll) {
+  if (mode === 'over') {
+    return roll >= target;
+  } else {
+    return roll <= target;
+  }
+}
+
+function getDiceMultiplier(target, mode, rtpSetting) {
+  const rtpVal = parseFloat(rtpSetting || 96);
+  const houseEdgeMultiplier = rtpVal / 100;
+  if (mode === 'over') {
+    const winChance = 100 - target;
+    if (winChance <= 0) return 0;
+    return parseFloat((houseEdgeMultiplier * (100 / winChance)).toFixed(4));
+  } else {
+    const winChance = target;
+    if (winChance <= 0) return 0;
+    return parseFloat((houseEdgeMultiplier * (100 / winChance)).toFixed(4));
+  }
+}
+
 module.exports = {
   getMinesMultiplier,
   generateRandomSlotGrid,
@@ -224,5 +293,9 @@ module.exports = {
   ROULETTE_NUMBERS,
   getCardValue,
   calculateHandScore,
-  createDeck
+  createDeck,
+  getPlinkoResult,
+  calculateDiceWin,
+  getDiceMultiplier
 };
+

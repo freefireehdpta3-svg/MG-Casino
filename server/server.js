@@ -729,6 +729,128 @@ app.post('/api/games/blackjack/play', authenticateToken, async (req, res) => {
 });
 
 // ==========================================
+// JUEGO PLINKO
+// ==========================================
+app.post('/api/games/plinko/play', authenticateToken, async (req, res) => {
+  const { betAmount, rows } = req.body;
+  if (!betAmount || !rows) return res.status(400).json({ error: 'Faltan parámetros' });
+
+  const bet = parseFloat(betAmount);
+  const rowsCount = parseInt(rows);
+
+  if (isNaN(bet) || bet <= 0) {
+    return res.status(400).json({ error: 'Monto de apuesta inválido' });
+  }
+
+  try {
+    const user = await dbQuery.get(`SELECT balance FROM users WHERE id = ?`, [req.user.id]);
+    if (user.balance < bet) {
+      return res.status(400).json({ error: 'Saldo insuficiente' });
+    }
+
+    // Obtener RTP de Plinko
+    const rtpSetting = await dbQuery.get(`SELECT value FROM settings WHERE key = 'rtp_plinko'`);
+    const rtp = parseFloat(rtpSetting ? rtpSetting.value : 96);
+
+    // Descontar saldo
+    await dbQuery.run(`UPDATE users SET balance = balance - ? WHERE id = ?`, [bet, req.user.id]);
+
+    // Calcular resultado
+    const result = gameLogic.getPlinkoResult(rowsCount, rtp);
+    const payoutAmount = parseFloat((bet * result.multiplier).toFixed(2));
+    const win = result.multiplier >= 1.0 ? 1 : 0;
+
+    if (payoutAmount > 0) {
+      await dbQuery.run(`UPDATE users SET balance = balance + ? WHERE id = ?`, [payoutAmount, req.user.id]);
+    }
+
+    // Registrar apuesta
+    await dbQuery.run(
+      `INSERT INTO bets (user_id, game_type, bet_amount, payout_amount, win, details) VALUES (?, 'plinko', ?, ?, ?, ?)`,
+      [req.user.id, bet, payoutAmount, win, JSON.stringify({ rows: rowsCount, path: result.path, bucket: result.bucket, multiplier: result.multiplier })]
+    );
+
+    res.json({
+      success: true,
+      path: result.path,
+      bucket: result.bucket,
+      multiplier: result.multiplier,
+      payoutAmount,
+      win: win === 1
+    });
+  } catch (error) {
+    console.error('Error en ruta Plinko:', error);
+    res.status(500).json({ error: 'Error al jugar Plinko' });
+  }
+});
+
+// ==========================================
+// JUEGO DADOS (DICE)
+// ==========================================
+app.post('/api/games/dice/play', authenticateToken, async (req, res) => {
+  const { betAmount, target, mode } = req.body;
+  if (!betAmount || !target || !mode) return res.status(400).json({ error: 'Faltan parámetros' });
+
+  const bet = parseFloat(betAmount);
+  const targetVal = parseFloat(target);
+
+  if (isNaN(bet) || bet <= 0) {
+    return res.status(400).json({ error: 'Monto de apuesta inválido' });
+  }
+  if (targetVal < 2 || targetVal > 98) {
+    return res.status(400).json({ error: 'Objetivo de dados fuera de rango (2-98)' });
+  }
+  if (mode !== 'over' && mode !== 'under') {
+    return res.status(400).json({ error: 'Modo de juego inválido' });
+  }
+
+  try {
+    const user = await dbQuery.get(`SELECT balance FROM users WHERE id = ?`, [req.user.id]);
+    if (user.balance < bet) {
+      return res.status(400).json({ error: 'Saldo insuficiente' });
+    }
+
+    // Obtener RTP de dados
+    const rtpSetting = await dbQuery.get(`SELECT value FROM settings WHERE key = 'rtp_dice'`);
+    const rtp = parseFloat(rtpSetting ? rtpSetting.value : 96);
+
+    // Calcular multiplicador
+    const multiplier = gameLogic.getDiceMultiplier(targetVal, mode, rtp);
+    if (multiplier <= 0) return res.status(400).json({ error: 'Configuración de probabilidad inválida' });
+
+    // Descontar saldo
+    await dbQuery.run(`UPDATE users SET balance = balance - ? WHERE id = ?`, [bet, req.user.id]);
+
+    // Tirar dados (número entre 0.00 y 99.99)
+    const roll = parseFloat((Math.random() * 100).toFixed(2));
+    const isWin = gameLogic.calculateDiceWin(targetVal, mode, roll);
+    const payoutAmount = isWin ? parseFloat((bet * multiplier).toFixed(2)) : 0.0;
+    const win = isWin ? 1 : 0;
+
+    if (payoutAmount > 0) {
+      await dbQuery.run(`UPDATE users SET balance = balance + ? WHERE id = ?`, [payoutAmount, req.user.id]);
+    }
+
+    // Registrar apuesta
+    await dbQuery.run(
+      `INSERT INTO bets (user_id, game_type, bet_amount, payout_amount, win, details) VALUES (?, 'dice', ?, ?, ?, ?)`,
+      [req.user.id, bet, payoutAmount, win, JSON.stringify({ target: targetVal, mode, roll, multiplier })]
+    );
+
+    res.json({
+      success: true,
+      roll,
+      multiplier,
+      payoutAmount,
+      win: isWin
+    });
+  } catch (error) {
+    console.error('Error en ruta Dice:', error);
+    res.status(500).json({ error: 'Error al jugar Dados' });
+  }
+});
+
+// ==========================================
 // APIS DEL PANEL ADMINISTRATIVO
 // ==========================================
 

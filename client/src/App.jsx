@@ -13,6 +13,8 @@ import Crash from './components/Crash';
 import Slots from './components/Slots';
 import Roulette from './components/Roulette';
 import Blackjack from './components/Blackjack';
+import Plinko from './components/Plinko';
+import Dice from './components/Dice';
 
 export const AuthContext = createContext(null);
 
@@ -123,6 +125,10 @@ export default function App() {
         return user ? <Roulette setView={setCurrentView} /> : <Login setView={setCurrentView} />;
       case 'game-blackjack':
         return user ? <Blackjack setView={setCurrentView} /> : <Login setView={setCurrentView} />;
+      case 'game-plinko':
+        return user ? <Plinko setView={setCurrentView} /> : <Login setView={setCurrentView} />;
+      case 'game-dice':
+        return user ? <Dice setView={setCurrentView} /> : <Login setView={setCurrentView} />;
       default:
         return <Home setView={setCurrentView} />;
     }
