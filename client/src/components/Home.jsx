@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../App';
-import { Bomb, Rocket, Disc, HelpCircle, Dices } from 'lucide-react';
+import { Bomb, Rocket, Disc, HelpCircle, Dices, Gamepad2 } from 'lucide-react';
 
 export default function Home({ setView }) {
   const { user } = useContext(AuthContext);
@@ -61,6 +61,14 @@ export default function Home({ setView }) {
       icon: <Dices size={48} className="animate-float" style={{ color: 'var(--violet)' }} />,
       bgGradient: 'linear-gradient(45deg, #1e1e38, #8a2be2)',
       label: 'Lanzar Dados',
+    },
+    {
+      id: 'provider-slots',
+      title: 'Slots de Proveedores',
+      desc: 'Juega a los títulos más conocidos del mercado como Gates of Olympus o Sweet Bonanza en pesos argentinos de forma gratuita.',
+      icon: <Gamepad2 size={48} className="animate-float" style={{ color: 'var(--gold)' }} />,
+      bgGradient: 'linear-gradient(45deg, #1e1e38, #dbbd4e)',
+      label: 'Abrir Catálogo',
     }
   ];
 
