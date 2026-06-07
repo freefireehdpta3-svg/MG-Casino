@@ -4,20 +4,22 @@ import { Gamepad2, X, Play, Sparkles } from 'lucide-react';
 export default function ProviderSlots({ setView }) {
   const [activeGameUrl, setActiveGameUrl] = useState(null);
   const [activeGameTitle, setActiveGameTitle] = useState('');
+  const [activeCategory, setActiveCategory] = useState('all');
 
   const slotGames = [
+    // DESTACADOS (Featured)
     {
       title: 'Gates of Olympus',
       provider: 'Pragmatic Play',
-      symbol: 'vs20olympgate',
-      cover: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?q=80&w=400&auto=format&fit=crop', // fallback stylized cover
+      category: 'featured',
+      cover: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?q=80&w=400&auto=format&fit=crop',
       bgGradient: 'linear-gradient(135deg, #2b1f0d, #ffd700)',
       demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs20olympgate&lang=es&cur=ARS'
     },
     {
       title: 'Sweet Bonanza',
       provider: 'Pragmatic Play',
-      symbol: 'vs20sweetbonanza',
+      category: 'featured',
       cover: 'https://images.unsplash.com/photo-1581798459219-318e76aecc7b?q=80&w=400&auto=format&fit=crop',
       bgGradient: 'linear-gradient(135deg, #2e1022, #ff7782)',
       demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs20sweetbonanza&lang=es&cur=ARS'
@@ -25,7 +27,7 @@ export default function ProviderSlots({ setView }) {
     {
       title: 'Sugar Rush',
       provider: 'Pragmatic Play',
-      symbol: 'vs20sugarrush',
+      category: 'featured',
       cover: 'https://images.unsplash.com/photo-1534080391025-afb109627364?q=80&w=400&auto=format&fit=crop',
       bgGradient: 'linear-gradient(135deg, #102e2a, #00e5ff)',
       demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs20sugarrush&lang=es&cur=ARS'
@@ -33,7 +35,7 @@ export default function ProviderSlots({ setView }) {
     {
       title: 'Starlight Princess',
       provider: 'Pragmatic Play',
-      symbol: 'vs20starlight',
+      category: 'featured',
       cover: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=400&auto=format&fit=crop',
       bgGradient: 'linear-gradient(135deg, #1d0f2b, #8a2be2)',
       demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs20starlight&lang=es&cur=ARS'
@@ -41,7 +43,7 @@ export default function ProviderSlots({ setView }) {
     {
       title: 'Big Bass Bonanza',
       provider: 'Pragmatic Play',
-      symbol: 'vs10bbbonanza',
+      category: 'featured',
       cover: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400&auto=format&fit=crop',
       bgGradient: 'linear-gradient(135deg, #0f222b, #41f1b6)',
       demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs10bbbonanza&lang=es&cur=ARS'
@@ -49,12 +51,57 @@ export default function ProviderSlots({ setView }) {
     {
       title: 'John Hunter & Book of Tut',
       provider: 'Pragmatic Play',
-      symbol: 'vs10bookoftut',
+      category: 'featured',
       cover: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=400&auto=format&fit=crop',
       bgGradient: 'linear-gradient(135deg, #2b1f0d, #dbbd4e)',
       demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs10bookoftut&lang=es&cur=ARS'
+    },
+    // JOKERS
+    {
+      title: "Joker's Jewels",
+      provider: 'Pragmatic Play',
+      category: 'jokers',
+      cover: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?q=80&w=400&auto=format&fit=crop',
+      bgGradient: 'linear-gradient(135deg, #2b1f0d, #dbbd4e)',
+      demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs5joker&lang=es&cur=ARS'
+    },
+    {
+      title: 'Master Joker',
+      provider: 'Pragmatic Play',
+      category: 'jokers',
+      cover: 'https://images.unsplash.com/photo-1581798459219-318e76aecc7b?q=80&w=400&auto=format&fit=crop',
+      bgGradient: 'linear-gradient(135deg, #2e1022, #dbbd4e)',
+      demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs1playmjoker&lang=es&cur=ARS'
+    },
+    {
+      title: 'Super Joker',
+      provider: 'Pragmatic Play',
+      category: 'jokers',
+      cover: 'https://images.unsplash.com/photo-1534080391025-afb109627364?q=80&w=400&auto=format&fit=crop',
+      bgGradient: 'linear-gradient(135deg, #102e2a, #ffd700)',
+      demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs5superjoker&lang=es&cur=ARS'
+    },
+    {
+      title: 'Joker King',
+      provider: 'Pragmatic Play',
+      category: 'jokers',
+      cover: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=400&auto=format&fit=crop',
+      bgGradient: 'linear-gradient(135deg, #1d0f2b, #8a2be2)',
+      demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs25jokerking&lang=es&cur=ARS'
+    },
+    {
+      title: 'Triple Jokers',
+      provider: 'Pragmatic Play',
+      category: 'jokers',
+      cover: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400&auto=format&fit=crop',
+      bgGradient: 'linear-gradient(135deg, #0f222b, #ffd700)',
+      demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs5trjokers&lang=es&cur=ARS'
     }
   ];
+
+  const filteredGames = activeCategory === 'all' 
+    ? slotGames 
+    : slotGames.filter(game => game.category === activeCategory);
 
   return (
     <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
@@ -65,8 +112,39 @@ export default function ProviderSlots({ setView }) {
           <Gamepad2 style={{ color: 'var(--gold)' }} /> Slots de Proveedores (Demo)
         </h2>
         <p style={{ color: 'var(--text-secondary)', marginTop: '4px' }}>
-          Juega gratis en modo demostración a los títulos más populares de **Pragmatic Play** en Pesos Argentinos (ARS).
+          Juega gratis en modo demostración a las mejores tragamonedas de **Pragmatic Play** en Pesos Argentinos (ARS).
         </p>
+      </div>
+
+      {/* Selector de Categorías */}
+      <div style={{ 
+        display: 'flex', 
+        gap: '12px', 
+        marginBottom: '28px',
+        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        paddingBottom: '16px'
+      }}>
+        <button 
+          onClick={() => setActiveCategory('all')} 
+          className={activeCategory === 'all' ? 'btn-gold' : 'btn-outline'}
+          style={{ padding: '8px 20px', fontSize: '0.85rem' }}
+        >
+          Todos los Juegos ({slotGames.length})
+        </button>
+        <button 
+          onClick={() => setActiveCategory('featured')} 
+          className={activeCategory === 'featured' ? 'btn-gold' : 'btn-outline'}
+          style={{ padding: '8px 20px', fontSize: '0.85rem' }}
+        >
+          Destacados
+        </button>
+        <button 
+          onClick={() => setActiveCategory('jokers')} 
+          className={activeCategory === 'jokers' ? 'btn-gold' : 'btn-outline'}
+          style={{ padding: '8px 20px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+        >
+          <span>🃏</span> Jokers
+        </button>
       </div>
 
       {/* Rejilla de Juegos */}
@@ -76,7 +154,7 @@ export default function ProviderSlots({ setView }) {
         gap: '24px',
         marginBottom: '40px'
       }}>
-        {slotGames.map((game, idx) => (
+        {filteredGames.map((game, idx) => (
           <div 
             key={idx}
             className="glass-panel"
