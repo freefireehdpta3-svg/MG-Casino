@@ -12,7 +12,7 @@ export default function Admin() {
   const [users, setUsers] = useState([]);
   const [deposits, setDeposits] = useState([]);
   const [withdrawals, setWithdrawals] = useState([]);
-  const [rtpSettings, setRtpSettings] = useState({ rtp_mines: '95', rtp_crash: '96', rtp_slots: '94', rtp_roulette: '97.3', rtp_plinko: '96', rtp_dice: '96' });
+  const [rtpSettings, setRtpSettings] = useState({ rtp_mines: '95', rtp_crash: '96', rtp_slots: '94', rtp_roulette: '97.3', rtp_plinko: '96', rtp_dice: '96', rtp_jokers_jewels: '96' });
   const [searchTerm, setSearchTerm] = useState('');
   
   // Estados de modales / inputs temporales
@@ -784,6 +784,21 @@ export default function Admin() {
                   value={rtpSettings.rtp_dice || '96'}
                   onChange={(e) => setRtpSettings({ ...rtpSettings, rtp_dice: e.target.value })}
                   style={{ width: '100%', accentColor: 'var(--violet)' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '8px' }}>
+                  RTP Joker's Jewels (Actual: {rtpSettings.rtp_jokers_jewels || '96'}%)
+                </label>
+                <input 
+                  type="range" 
+                  min="50" 
+                  max="99" 
+                  step="1"
+                  value={rtpSettings.rtp_jokers_jewels || '96'}
+                  onChange={(e) => setRtpSettings({ ...rtpSettings, rtp_jokers_jewels: e.target.value })}
+                  style={{ width: '100%', accentColor: 'var(--gold)' }}
                 />
               </div>
             </div>

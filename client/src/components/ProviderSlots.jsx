@@ -59,8 +59,10 @@ export default function ProviderSlots({ setView }) {
     // JOKERS
     {
       title: "Joker's Jewels",
-      provider: 'Pragmatic Play',
+      provider: 'MG Casino (In-house)',
       category: 'jokers',
+      isReal: true,
+      route: 'game-jokers-jewels',
       cover: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?q=80&w=400&auto=format&fit=crop',
       bgGradient: 'linear-gradient(135deg, #2b1f0d, #dbbd4e)',
       demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs5joker&lang=es&cur=ARS'
@@ -171,8 +173,12 @@ export default function ProviderSlots({ setView }) {
               transition: 'transform 0.2s ease, box-shadow 0.2s ease'
             }}
             onClick={() => {
-              setActiveGameUrl(game.demoUrl);
-              setActiveGameTitle(game.title);
+              if (game.isReal) {
+                setView(game.route);
+              } else {
+                setActiveGameUrl(game.demoUrl);
+                setActiveGameTitle(game.title);
+              }
             }}
           >
             {/* Imagen de Portada con Gradiente */}
@@ -224,10 +230,11 @@ export default function ProviderSlots({ setView }) {
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center', 
-                  gap: '6px' 
+                  gap: '6px',
+                  background: game.isReal ? 'linear-gradient(135deg, #00e676, #00b0ff)' : 'var(--gold-gradient)'
                 }}
               >
-                <Play size={14} fill="currentColor" /> Jugar Demo (ARS)
+                <Play size={14} fill="currentColor" /> {game.isReal ? 'Apuesta Real ($)' : 'Jugar Demo (ARS)'}
               </button>
             </div>
           </div>

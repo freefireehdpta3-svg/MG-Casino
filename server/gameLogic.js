@@ -284,6 +284,124 @@ function getDiceMultiplier(target, mode, rtpSetting) {
   }
 }
 
+// 8. JOKER'S JEWELS GAME LOGIC
+const JOKER_SYMBOLS = [
+  { id: 'gem_cyan', name: '💎', weight: 45, linePayouts: { 3: 4, 4: 10, 5: 40 } },
+  { id: 'gem_blue', name: '🔵', weight: 40, linePayouts: { 3: 4, 4: 10, 5: 40 } },
+  { id: 'gem_red', name: '🔴', weight: 35, linePayouts: { 3: 4, 4: 10, 5: 40 } },
+  { id: 'clubs', name: '🪄', weight: 25, linePayouts: { 3: 10, 4: 40, 5: 200 } },
+  { id: 'shoes', name: '🥿', weight: 20, linePayouts: { 3: 10, 4: 40, 5: 200 } },
+  { id: 'lute', name: '🪕', weight: 15, linePayouts: { 3: 10, 4: 40, 5: 200 } },
+  { id: 'crown', name: '👑', weight: 8, scatterPayouts: { 3: 10, 4: 50, 5: 250 } },
+  { id: 'joker', name: '🃏', weight: 4, scatterPayouts: { 3: 20, 4: 200, 5: 1000 } }
+];
+
+const JOKER_PAYLINES = [
+  [1, 1, 1, 1, 1], // Fila media
+  [0, 0, 0, 0, 0], // Fila superior
+  [2, 2, 2, 2, 2], // Fila inferior
+  [0, 1, 2, 1, 0], // V
+  [2, 1, 0, 1, 2]  // V invertida
+];
+
+function generateJokerGrid() {
+  const grid = [];
+  const totalWeight = JOKER_SYMBOLS.reduce((sum, sym) => sum + sym.weight, 0);
+
+  for (let row = 0; row < 3; row++) {
+    const rowSymbols = [];
+    for (let col = 0; col < 5; col++) {
+      let rand = Math.random() * totalWeight;
+      let selected = JOKER_SYMBOLS[0].id;
+      for (const sym of JOKER_SYMBOLS) {
+        if (rand < sym.weight) {
+          selected = sym.id;
+          break;
+        }
+        rand -= sym.weight;
+      }
+      rowSymbols.push(selected);
+    }
+    grid.push(rowSymbols);
+  }
+  return grid;
+}
+
+function checkJokerWins(grid, totalBet) {
+  const betPerLine = totalBet / 5;
+  let totalWin = 0;
+  const winningLines = [];
+  const scatters = { joker: 0, crown: 0 };
+
+  // 1. Contar Scatters (en cualquier posición de la cuadrícula)
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 5; col++) {
+      const symId = grid[row][col];
+      if (symId === 'joker') scatters.joker++;
+      if (symId === 'crown') scatters.crown++;
+    }
+  }
+
+  // Payout de Scatters (se basan en la apuesta TOTAL)
+  let scatterWins = [];
+  ['joker', 'crown'].forEach(id => {
+    const count = scatters[id];
+    if (count >= 3) {
+      const symInfo = JOKER_SYMBOLS.find(s => s.id === id);
+      const mult = symInfo.scatterPayouts[count] || 0;
+      const winAmount = mult * totalBet;
+      if (winAmount > 0) {
+        totalWin += winAmount;
+        scatterWins.push({
+          symbol: id,
+          count,
+          winAmount
+        });
+      }
+    }
+  });
+
+  // 2. Verificar Líneas de Pago (para los demás símbolos)
+  JOKER_PAYLINES.forEach((line, lineIdx) => {
+    const lineSymbols = [];
+    for (let col = 0; col < 5; col++) {
+      const row = line[col];
+      lineSymbols.push(grid[row][col]);
+    }
+
+    const firstSymbol = lineSymbols[0];
+    
+    // Scatters no pagan por línea
+    if (firstSymbol === 'joker' || firstSymbol === 'crown') return;
+
+    let matchCount = 1;
+    for (let i = 1; i < 5; i++) {
+      if (lineSymbols[i] === firstSymbol) {
+        matchCount++;
+      } else {
+        break;
+      }
+    }
+
+    if (matchCount >= 3) {
+      const symbolInfo = JOKER_SYMBOLS.find(s => s.id === firstSymbol);
+      const multiplier = symbolInfo.linePayouts[matchCount] || 0;
+      const winAmount = multiplier * betPerLine;
+      if (winAmount > 0) {
+        totalWin += winAmount;
+        winningLines.push({
+          lineIndex: lineIdx,
+          symbol: firstSymbol,
+          matchCount,
+          winAmount
+        });
+      }
+    }
+  });
+
+  return { totalWin, winningLines, scatterWins };
+}
+
 module.exports = {
   getMinesMultiplier,
   generateRandomSlotGrid,
@@ -296,6 +414,9 @@ module.exports = {
   createDeck,
   getPlinkoResult,
   calculateDiceWin,
-  getDiceMultiplier
+  getDiceMultiplier,
+  generateJokerGrid,
+  checkJokerWins
 };
+
 

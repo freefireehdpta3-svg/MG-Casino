@@ -851,6 +851,72 @@ app.post('/api/games/dice/play', authenticateToken, async (req, res) => {
 });
 
 // ==========================================
+// JUEGO JOKER'S JEWELS
+// ==========================================
+app.post('/api/games/jokers-jewels/spin', authenticateToken, async (req, res) => {
+  const { betAmount } = req.body;
+  if (!betAmount) return res.status(400).json({ error: 'Debe ingresar un monto a apostar' });
+
+  const bet = parseFloat(betAmount);
+  if (bet <= 0) return res.status(400).json({ error: 'Monto de apuesta inválido' });
+
+  try {
+    const user = await dbQuery.get(`SELECT balance FROM users WHERE id = ?`, [req.user.id]);
+    if (user.balance < bet) {
+      return res.status(400).json({ error: 'Saldo insuficiente' });
+    }
+
+    // Obtener RTP de Joker's Jewels de la configuración
+    const rtpSetting = await dbQuery.get(`SELECT value FROM settings WHERE key = 'rtp_jokers_jewels'`);
+    const rtp = parseFloat(rtpSetting ? rtpSetting.value : 96);
+
+    // Descontar balance
+    await dbQuery.run(`UPDATE users SET balance = balance - ? WHERE id = ?`, [bet, req.user.id]);
+
+    // Generar giro de slots
+    let grid = gameLogic.generateJokerGrid();
+    let { totalWin, winningLines, scatterWins } = gameLogic.checkJokerWins(grid, bet);
+
+    // Ajuste por RTP: Si gana demasiado, forzar una probabilidad basada en RTP
+    if (totalWin > 0 && Math.random() * 100 > rtp) {
+      let attempts = 0;
+      while (totalWin > 0 && attempts < 10) {
+        grid = gameLogic.generateJokerGrid();
+        const check = gameLogic.checkJokerWins(grid, bet);
+        totalWin = check.totalWin;
+        winningLines = check.winningLines;
+        scatterWins = check.scatterWins;
+        attempts++;
+      }
+    }
+
+    let win = 0;
+    if (totalWin > 0) {
+      win = 1;
+      await dbQuery.run(`UPDATE users SET balance = balance + ? WHERE id = ?`, [totalWin, req.user.id]);
+    }
+
+    // Registrar apuesta
+    await dbQuery.run(
+      `INSERT INTO bets (user_id, game_type, bet_amount, payout_amount, win, details) VALUES (?, 'jokers_jewels', ?, ?, ?, ?)`,
+      [req.user.id, bet, totalWin, win, JSON.stringify({ grid, winningLines, scatterWins })]
+    );
+
+    res.json({
+      success: true,
+      grid,
+      winningLines,
+      scatterWins,
+      payoutAmount: parseFloat(totalWin.toFixed(2)),
+      win: win === 1
+    });
+  } catch (error) {
+    console.error('Error al girar Joker\'s Jewels:', error);
+    res.status(500).json({ error: 'Error en el giro de tragamonedas de Joker' });
+  }
+});
+
+// ==========================================
 // APIS DEL PANEL ADMINISTRATIVO
 // ==========================================
 

@@ -16,6 +16,7 @@ import Blackjack from './components/Blackjack';
 import Plinko from './components/Plinko';
 import Dice from './components/Dice';
 import ProviderSlots from './components/ProviderSlots';
+import JokersJewels from './components/JokersJewels';
 
 export const AuthContext = createContext(null);
 
@@ -132,6 +133,8 @@ export default function App() {
         return user ? <Dice setView={setCurrentView} /> : <Login setView={setCurrentView} />;
       case 'provider-slots':
         return user ? <ProviderSlots setView={setCurrentView} /> : <Login setView={setCurrentView} />;
+      case 'game-jokers-jewels':
+        return user ? <JokersJewels setView={setCurrentView} /> : <Login setView={setCurrentView} />;
       default:
         return <Home setView={setCurrentView} />;
     }

@@ -69,6 +69,14 @@ export default function Home({ setView }) {
       icon: <Gamepad2 size={48} className="animate-float" style={{ color: 'var(--gold)' }} />,
       bgGradient: 'linear-gradient(45deg, #1e1e38, #dbbd4e)',
       label: 'Abrir Catálogo',
+    },
+    {
+      id: 'game-jokers-jewels',
+      title: "Joker's Jewels Real ($)",
+      desc: 'El clásico y famoso tragamonedas de bufones y joyas. ¡Juega con tu saldo real para conseguir el gran premio de 1000x!',
+      icon: <Gamepad2 size={48} className="animate-float" style={{ color: 'var(--gold)' }} />,
+      bgGradient: 'linear-gradient(45deg, #1e1e38, #ffd700)',
+      label: 'Apostar Real',
     }
   ];
 
