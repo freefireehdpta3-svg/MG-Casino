@@ -133,6 +133,7 @@ async function initDb() {
         role TEXT DEFAULT 'user',
         balance REAL DEFAULT 0.0,
         status TEXT DEFAULT 'active',
+        whatsapp TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
@@ -199,6 +200,7 @@ async function initDb() {
         role TEXT DEFAULT 'user',
         balance REAL DEFAULT 0.0,
         status TEXT DEFAULT 'active',
+        whatsapp TEXT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
@@ -277,6 +279,14 @@ async function initDb() {
         [setting.key, setting.value]
       );
     }
+  }
+
+  // Migración para añadir la columna whatsapp si no existe
+  try {
+    await dbQuery.run(`ALTER TABLE users ADD COLUMN whatsapp TEXT`);
+    console.log('Migración: Columna whatsapp añadida a la tabla users.');
+  } catch (e) {
+    console.log('Migración: La columna whatsapp ya existe o no se pudo agregar.');
   }
 
   // Crear usuario administrador por defecto si no existe

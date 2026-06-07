@@ -23,6 +23,7 @@ export default function Admin() {
   const [newUsername, setNewUsername] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newBalance, setNewBalance] = useState('');
+  const [newWhatsapp, setNewWhatsapp] = useState('');
   const [createError, setCreateError] = useState('');
   const [createSuccess, setCreateSuccess] = useState('');
 
@@ -222,7 +223,8 @@ export default function Admin() {
         body: JSON.stringify({ 
           username: newUsername, 
           password: newPassword, 
-          balance: newBalance ? parseFloat(newBalance) : 0.0 
+          balance: newBalance ? parseFloat(newBalance) : 0.0,
+          whatsapp: newWhatsapp
         })
       });
 
@@ -236,6 +238,7 @@ export default function Admin() {
       setNewUsername('');
       setNewPassword('');
       setNewBalance('');
+      setNewWhatsapp('');
       fetchUsers();
       fetchStats();
       
@@ -580,6 +583,17 @@ export default function Admin() {
                     style={{ width: '100%', padding: '10px' }}
                   />
                 </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '6px', color: 'var(--text-secondary)' }}>WhatsApp</label>
+                  <input 
+                    type="text" 
+                    className="input-field" 
+                    placeholder="Ej: +5493426983026" 
+                    value={newWhatsapp}
+                    onChange={(e) => setNewWhatsapp(e.target.value)}
+                    style={{ width: '100%', padding: '10px' }}
+                  />
+                </div>
               </div>
 
               {createError && (
@@ -620,6 +634,7 @@ export default function Admin() {
                 <tr>
                   <th>Usuario</th>
                   <th>Rol</th>
+                  <th>WhatsApp</th>
                   <th>Saldo</th>
                   <th>Estado</th>
                   <th>Registrado</th>
@@ -632,12 +647,13 @@ export default function Admin() {
                   <tr key={u.id}>
                     <td style={{ fontWeight: 'bold' }}>{u.username}</td>
                     <td style={{ textTransform: 'uppercase', fontSize: '0.8rem' }}>{u.role}</td>
+                    <td>{u.whatsapp || '-'}</td>
                     <td style={{ fontWeight: 'bold', color: 'var(--gold)' }}>
                       ${parseFloat(u.balance).toLocaleString('es-AR', { minimumFractionDigits: 2 })}
                     </td>
                     <td>
-                      <span className={`badge ${u.status === 'active' ? 'badge-approved' : 'badge-rejected'}`}>
-                        {u.status === 'active' ? 'Activo' : 'Suspendido'}
+                      <span className={`badge ${u.status === 'active' ? 'badge-approved' : u.status === 'pending' ? 'badge-pending' : 'badge-rejected'}`}>
+                        {u.status === 'active' ? 'Activo' : u.status === 'pending' ? 'Pendiente' : 'Suspendido'}
                       </span>
                     </td>
                     <td>{new Date(u.created_at).toLocaleDateString('es-AR')}</td>
@@ -663,19 +679,40 @@ export default function Admin() {
                     </td>
                     <td>
                       {u.role !== 'admin' && (
-                        <button 
-                          onClick={() => handleToggleUserStatus(u.id, u.status)}
-                          className="btn-outline"
-                          style={{
-                            padding: '4px 8px',
-                            fontSize: '0.75rem',
-                            border: u.status === 'active' ? '1px solid var(--red)' : '1px solid var(--green)',
-                            color: u.status === 'active' ? 'var(--red)' : 'var(--green)'
-                          }}
-                        >
-                          {u.status === 'active' ? <UserX size={12} /> : <UserCheck size={12} />}
-                          {u.status === 'active' ? ' Suspender' : ' Activar'}
-                        </button>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          {u.status === 'pending' ? (
+                            <button 
+                              onClick={() => handleToggleUserStatus(u.id, u.status)}
+                              className="btn-gold"
+                              style={{
+                                padding: '4px 8px',
+                                fontSize: '0.75rem',
+                                background: '#00e676',
+                                color: 'white',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                boxShadow: 'none'
+                              }}
+                            >
+                              <UserCheck size={12} /> Aprobar
+                            </button>
+                          ) : (
+                            <button 
+                              onClick={() => handleToggleUserStatus(u.id, u.status)}
+                              className="btn-outline"
+                              style={{
+                                padding: '4px 8px',
+                                fontSize: '0.75rem',
+                                border: u.status === 'active' ? '1px solid var(--red)' : '1px solid var(--green)',
+                                color: u.status === 'active' ? 'var(--red)' : 'var(--green)'
+                              }}
+                            >
+                              {u.status === 'active' ? <UserX size={12} /> : <UserCheck size={12} />}
+                              {u.status === 'active' ? ' Suspender' : ' Activar'}
+                            </button>
+                          )}
+                        </div>
                       )}
                     </td>
                   </tr>

@@ -73,9 +73,9 @@ async function requireAdmin(req, res, next) {
 // ==========================================
 
 app.post('/api/auth/register', async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Debe ingresar usuario y contraseña' });
+  const { username, password, whatsapp } = req.body;
+  if (!username || !password || !whatsapp) {
+    return res.status(400).json({ error: 'Debe ingresar usuario, contraseña y número de WhatsApp' });
   }
   
   try {
@@ -87,13 +87,12 @@ app.post('/api/auth/register', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
     
-    const result = await dbQuery.run(
-      `INSERT INTO users (username, password_hash, role, balance) VALUES (?, ?, 'user', 0.0)`,
-      [username, hash]
+    await dbQuery.run(
+      `INSERT INTO users (username, password_hash, role, balance, status, whatsapp) VALUES (?, ?, 'user', 0.0, 'pending', ?)`,
+      [username, hash, whatsapp]
     );
 
-    const token = jwt.sign({ id: result.lastID, username, role: 'user' }, JWT_SECRET, { expiresIn: '7d' });
-    res.json({ token, user: { id: result.lastID, username, role: 'user', balance: 0.0 } });
+    res.json({ success: true, message: 'Registro recibido. Su usuario está pendiente de aprobación por el administrador.' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al registrar el usuario' });
@@ -114,6 +113,10 @@ app.post('/api/auth/login', async (req, res) => {
 
     if (user.status === 'banned') {
       return res.status(403).json({ error: 'Esta cuenta ha sido suspendida' });
+    }
+
+    if (user.status === 'pending') {
+      return res.status(403).json({ error: 'Tu usuario está pendiente de activación. Te notificaremos a tu WhatsApp cuando esté activo.' });
     }
 
     const validPassword = await bcrypt.compare(password, user.password_hash);
@@ -944,7 +947,7 @@ app.get('/api/admin/stats', authenticateToken, requireAdmin, async (req, res) =>
 
 app.get('/api/admin/users', authenticateToken, requireAdmin, async (req, res) => {
   try {
-    const users = await dbQuery.all(`SELECT id, username, role, balance, status, created_at FROM users ORDER BY id DESC`);
+    const users = await dbQuery.all(`SELECT id, username, role, balance, status, whatsapp, created_at FROM users ORDER BY id DESC`);
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -985,7 +988,7 @@ app.post('/api/admin/users/status', authenticateToken, requireAdmin, async (req,
 });
 
 app.post('/api/admin/users/create', authenticateToken, requireAdmin, async (req, res) => {
-  const { username, password, balance } = req.body;
+  const { username, password, balance, whatsapp } = req.body;
   if (!username || !password) {
     return res.status(400).json({ error: 'Debe ingresar usuario y contraseña' });
   }
@@ -1001,8 +1004,8 @@ app.post('/api/admin/users/create', authenticateToken, requireAdmin, async (req,
     const initBalance = balance ? parseFloat(balance) : 0.0;
 
     const result = await dbQuery.run(
-      `INSERT INTO users (username, password_hash, role, balance) VALUES (?, ?, 'user', ?)`,
-      [username, hash, initBalance]
+      `INSERT INTO users (username, password_hash, role, balance, status, whatsapp) VALUES (?, ?, 'user', ?, 'active', ?)`,
+      [username, hash, initBalance, whatsapp || '']
     );
 
     res.json({ 
@@ -1012,7 +1015,8 @@ app.post('/api/admin/users/create', authenticateToken, requireAdmin, async (req,
         username, 
         role: 'user', 
         balance: initBalance,
-        status: 'active'
+        status: 'active',
+        whatsapp: whatsapp || ''
       } 
     });
   } catch (error) {
