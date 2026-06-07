@@ -2,29 +2,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Paleta de Colores Principal */
-  --bg-deep: #08080f;
-  --bg-dark: #0f0f1c;
-  --bg-card: rgba(22, 22, 38, 0.7);
-  --bg-card-hover: rgba(30, 30, 50, 0.85);
-  --border-glow: rgba(138, 43, 226, 0.2);
-  --border-glow-active: rgba(138, 43, 226, 0.5);
+  /* Paleta de Colores Principal (Estilo ganacon463.live) */
+  --bg-deep: #0e0e10;
+  --bg-dark: #1c1c1d;
+  --bg-card: rgba(28, 28, 29, 0.75);
+  --bg-card-hover: rgba(38, 38, 40, 0.9);
+  --border-glow: rgba(219, 189, 78, 0.15);
+  --border-glow-active: rgba(219, 189, 78, 0.45);
   
   /* Acentos y Neón */
-  --gold: #ffd700;
-  --gold-hover: #ffea53;
-  --gold-glow: rgba(255, 215, 0, 0.35);
-  --violet: #8a2be2;
-  --violet-glow: rgba(138, 43, 226, 0.4);
-  --cyan: #00e5ff;
-  --cyan-glow: rgba(0, 229, 255, 0.4);
-  --green: #00e676;
-  --red: #ff1744;
-  --warning: #ff9100;
+  --gold: #dbbd4e;
+  --gold-hover: #edd16f;
+  --gold-glow: rgba(219, 189, 78, 0.35);
+  --violet: #98742c;
+  --violet-glow: rgba(152, 116, 44, 0.35);
+  --cyan: #d4d1dc;
+  --cyan-glow: rgba(212, 209, 220, 0.2);
+  --green: #41f1b6;
+  --red: #ff7782;
+  --warning: #ffbb55;
 
   /* Texto */
-  --text-primary: #ffffff;
-  --text-secondary: #a0aec0;
+  --text-primary: #f2f2f2;
+  --text-secondary: #b4b4b4;
   --text-muted: #718096;
 
   /* Fuentes */
@@ -39,6 +39,7 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --radius: 12px;
 }
+
 
 /* Reset de estilos */
 * {
