@@ -9,6 +9,22 @@ export default function ProviderSlots({ setView }) {
   const slotGames = [
     // DESTACADOS (Featured)
     {
+      title: "Link King: Striker's Fortune",
+      provider: 'Zitro Games',
+      category: 'featured',
+      cover: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?q=80&w=400&auto=format&fit=crop',
+      bgGradient: 'linear-gradient(135deg, #2b1f0d, #00ff87)',
+      demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs5joker&lang=es&cur=ARS'
+    },
+    {
+      title: 'Sweet Powernudge',
+      provider: 'Pragmatic Play',
+      category: 'featured',
+      cover: 'https://images.unsplash.com/photo-1581798459219-318e76aecc7b?q=80&w=400&auto=format&fit=crop',
+      bgGradient: 'linear-gradient(135deg, #2e1022, #00ff87)',
+      demoUrl: 'https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?gameSymbol=vs20sweetnudge&lang=es&cur=ARS'
+    },
+    {
       title: 'Gates of Olympus',
       provider: 'Pragmatic Play',
       category: 'featured',
@@ -110,11 +126,11 @@ export default function ProviderSlots({ setView }) {
       
       {/* Encabezado */}
       <div style={{ marginBottom: '32px' }}>
-        <h2 style={{ fontSize: '1.8rem', display: 'flex', alignItems: 'center', gap: '10px', color: 'white' }}>
-          <Gamepad2 style={{ color: 'var(--gold)' }} /> Slots de Proveedores (Demo)
+        <h2 style={{ fontSize: '1.8rem', display: 'flex', alignItems: 'center', gap: '10px', color: 'white', fontFamily: 'Outfit, sans-serif' }}>
+          🎰 Slots Destacados
         </h2>
         <p style={{ color: 'var(--text-secondary)', marginTop: '4px' }}>
-          Juega gratis en modo demostración a las mejores tragamonedas de **Pragmatic Play** en Pesos Argentinos (ARS).
+          Divertite con la mejor selección de tragamonedas de **Pragmatic Play** y **Zitro** en pesos argentinos.
         </p>
       </div>
 

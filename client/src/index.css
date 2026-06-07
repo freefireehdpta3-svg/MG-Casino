@@ -2,23 +2,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Paleta de Colores Principal (Estilo ganacon463.live) */
-  --bg-deep: #0e0e10;
-  --bg-dark: #1c1c1d;
-  --bg-card: rgba(28, 28, 29, 0.75);
-  --bg-card-hover: rgba(38, 38, 40, 0.9);
-  --border-glow: rgba(219, 189, 78, 0.15);
-  --border-glow-active: rgba(219, 189, 78, 0.45);
+  /* Paleta de Colores Principal (Estilo bplay) */
+  --bg-deep: #09090b;
+  --bg-dark: #121214;
+  --bg-card: rgba(18, 18, 20, 0.75);
+  --bg-card-hover: rgba(26, 26, 30, 0.9);
+  --border-glow: rgba(0, 230, 118, 0.15);
+  --border-glow-active: rgba(0, 230, 118, 0.45);
   
-  /* Acentos y Neón */
-  --gold: #dbbd4e;
-  --gold-hover: #edd16f;
-  --gold-glow: rgba(219, 189, 78, 0.35);
-  --violet: #98742c;
-  --violet-glow: rgba(152, 116, 44, 0.35);
-  --cyan: #d4d1dc;
-  --cyan-glow: rgba(212, 209, 220, 0.2);
-  --green: #41f1b6;
+  /* Acentos y Neón en verde */
+  --gold: #00ff87;
+  --gold-hover: #33ff9e;
+  --gold-glow: rgba(0, 255, 135, 0.35);
+  --violet: #008e47;
+  --violet-glow: rgba(0, 142, 71, 0.35);
+  --cyan: #00ff87;
+  --cyan-glow: rgba(0, 255, 135, 0.2);
+  --green: #00ff87;
   --red: #ff7782;
   --warning: #ffbb55;
 
@@ -103,7 +103,7 @@ button, input, select, textarea {
 .glass-panel-gold {
   background: var(--bg-card);
   backdrop-filter: var(--glass-blur);
-  border: 1px solid rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(0, 255, 135, 0.15);
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
   transition: var(--transition);
@@ -116,7 +116,7 @@ button, input, select, textarea {
 
 /* Botones Premium */
 .btn-gold {
-  background: linear-gradient(135deg, var(--gold), #cca600);
+  background: linear-gradient(135deg, var(--gold), #00a84f);
   color: #000000;
   border: none;
   border-radius: var(--radius);
@@ -135,7 +135,7 @@ button, input, select, textarea {
 .btn-gold:hover {
   background: linear-gradient(135deg, var(--gold-hover), var(--gold));
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 255, 135, 0.5);
 }
 
 .btn-gold:active {
@@ -143,7 +143,7 @@ button, input, select, textarea {
 }
 
 .btn-violet {
-  background: linear-gradient(135deg, var(--violet), #5d00a8);
+  background: linear-gradient(135deg, var(--violet), #004d23);
   color: #ffffff;
   border: none;
   border-radius: var(--radius);
@@ -160,9 +160,9 @@ button, input, select, textarea {
 }
 
 .btn-violet:hover {
-  background: linear-gradient(135deg, #a03eff, var(--violet));
+  background: linear-gradient(135deg, #00ff87, var(--violet));
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(138, 43, 226, 0.6);
+  box-shadow: 0 6px 20px rgba(0, 255, 135, 0.6);
 }
 
 .btn-violet:active {
@@ -288,7 +288,7 @@ button, input, select, textarea {
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--gold), #cca600);
+  background: linear-gradient(135deg, var(--gold), #00a84f);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: flex;

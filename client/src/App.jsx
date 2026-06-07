@@ -93,13 +93,13 @@ export default function App() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#08080f',
-        color: '#ffd700',
+        backgroundColor: '#09090b',
+        color: '#00ff87',
         fontSize: '1.5rem',
         fontWeight: 'bold',
         fontFamily: 'Outfit, sans-serif'
       }}>
-        Cargando MG Casino...
+        Cargando MGCASINO...
       </div>
     );
   }
@@ -146,8 +146,8 @@ export default function App() {
         
         {/* ENCABEZADO */}
         <header className="header">
-          <div className="logo" onClick={() => setCurrentView('home')} style={{ cursor: 'pointer' }}>
-            MG <span>Casino Online</span>
+          <div className="logo" onClick={() => setCurrentView('home')} style={{ cursor: 'pointer', fontFamily: 'Outfit, sans-serif', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            MGCASINO<span style={{ color: '#ffffff', fontSize: '0.85rem', fontWeight: 'bold', marginLeft: '4px', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '6px' }}>SF</span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
