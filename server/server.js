@@ -920,6 +920,79 @@ app.post('/api/games/jokers-jewels/spin', authenticateToken, async (req, res) =>
 });
 
 // ==========================================
+// JUEGOS TRAGAMONEDAS PERSONALIZADOS REALES (GATES, MASKS, MONOPOLY, ETC.)
+// ==========================================
+app.post('/api/games/custom-slots/spin', authenticateToken, async (req, res) => {
+  const { gameId, betAmount } = req.body;
+  if (!gameId || !betAmount) return res.status(400).json({ error: 'Faltan parámetros de apuesta.' });
+
+  const bet = parseFloat(betAmount);
+  if (bet <= 0) return res.status(400).json({ error: 'Monto de apuesta inválido.' });
+
+  const validGames = ['gates_mg', 'masks_fire', 'monopoly_king', 'dragon_ascension', 'fishin_pots'];
+  if (!validGames.includes(gameId)) {
+    return res.status(400).json({ error: 'Juego de slot no válido.' });
+  }
+
+  try {
+    const user = await dbQuery.get(`SELECT balance FROM users WHERE id = ?`, [req.user.id]);
+    if (user.balance < bet) {
+      return res.status(400).json({ error: 'Saldo insuficiente.' });
+    }
+
+    // Obtener el RTP regulado del slot específico desde la DB
+    const rtpKey = `rtp_${gameId}`;
+    const rtpSetting = await dbQuery.get(`SELECT value FROM settings WHERE key = ?`, [rtpKey]);
+    const rtp = parseFloat(rtpSetting ? rtpSetting.value : 96);
+
+    // Descontar la apuesta de la billetera del usuario
+    await dbQuery.run(`UPDATE users SET balance = balance - ? WHERE id = ?`, [bet, req.user.id]);
+
+    // Generar el giro matemático en el servidor
+    let grid = gameLogic.generateCustomSlotGrid(gameId);
+    let check = gameLogic.checkCustomSlotWins(gameId, grid, bet);
+    let totalWin = check.totalWin;
+
+    // Control de RTP (Ajuste preventivo si el premio excede la tasa regulada)
+    if (totalWin > 0 && Math.random() * 100 > rtp) {
+      let attempts = 0;
+      while (totalWin > 0 && attempts < 12) {
+        grid = gameLogic.generateCustomSlotGrid(gameId);
+        check = gameLogic.checkCustomSlotWins(gameId, grid, bet);
+        totalWin = check.totalWin;
+        attempts++;
+      }
+    }
+
+    // Sumar ganancias en la billetera
+    let win = totalWin > 0 ? 1 : 0;
+    if (totalWin > 0) {
+      await dbQuery.run(`UPDATE users SET balance = balance + ? WHERE id = ?`, [totalWin, req.user.id]);
+    }
+
+    // Registrar la apuesta en el historial
+    await dbQuery.run(
+      `INSERT INTO bets (user_id, game_type, bet_amount, payout_amount, win, details) VALUES (?, ?, ?, ?, ?, ?)`,
+      [req.user.id, `slot_${gameId}`, bet, totalWin, win, JSON.stringify({ grid, winningLines: check.winningLines, scatterWins: check.scatterWins, multipliersSum: check.multipliersSum })]
+    );
+
+    res.json({
+      success: true,
+      grid,
+      winningLines: check.winningLines,
+      scatterWins: check.scatterWins,
+      multipliersSum: check.multipliersSum || 0,
+      payoutAmount: parseFloat(totalWin.toFixed(2)),
+      win: win === 1
+    });
+
+  } catch (error) {
+    console.error(`Error al girar slot ${gameId}:`, error);
+    res.status(500).json({ error: 'Error interno al procesar el tiro.' });
+  }
+});
+
+// ==========================================
 // APIS DEL PANEL ADMINISTRATIVO
 // ==========================================
 

@@ -96,6 +96,49 @@ export default function Home({ setView }) {
     }
   ];
 
+  const highlightedGames = [
+    {
+      id: 'game-custom-slots-gates_mg',
+      title: 'Gates of MGCASINO',
+      desc: 'Entra al templo de MGCASINO y desata cascadas de gemas con relámpagos multiplicadores de hasta 500x. ¡Apuestas reales!',
+      cover: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?q=80&w=600&auto=format&fit=crop',
+      label: 'Jugar Real ($)',
+      rtp: '96'
+    },
+    {
+      id: 'game-custom-slots-masks_fire',
+      title: '12 Masks of Fire: Drum Frenzy',
+      desc: 'El mítico slot de máscaras de fuego. ¡Reúne hasta 9 máscaras en pantalla para ganar el premio mayor de 2000x tu apuesta total!',
+      cover: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=600&auto=format&fit=crop',
+      label: 'Jugar Real ($)',
+      rtp: '96'
+    },
+    {
+      id: 'game-custom-slots-monopoly_king',
+      title: 'Monopoly: Cash is King',
+      desc: 'Haz girar el tablero clásico del magnate. Reúne cofres de Caja de Comunidad para activar bonos en efectivo directo.',
+      cover: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop',
+      label: 'Jugar Real ($)',
+      rtp: '96'
+    },
+    {
+      id: 'game-custom-slots-dragon_ascension',
+      title: 'Area Link: Dragon Ascension',
+      desc: 'Despierta el poder de los dragones recolectando huevos místicos. Activa giros con fuego y multiplicadores acumulados.',
+      cover: 'https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?q=80&w=600&auto=format&fit=crop',
+      label: 'Jugar Real ($)',
+      rtp: '96'
+    },
+    {
+      id: 'game-custom-slots-fishin_pots',
+      title: 'Fishin\' Triple Pots of Gold',
+      desc: 'Acompaña al leprechaun pescador y atrapa peces con premios en efectivo directo y ollas de oro en el arcoíris.',
+      cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop',
+      label: 'Jugar Real ($)',
+      rtp: '96'
+    }
+  ];
+
   const featuredSlots = [
     {
       id: 'game-jokers-jewels',
@@ -260,7 +303,48 @@ export default function Home({ setView }) {
         🔞 El juego compulsivo es perjudicial para vos y tu familia. Solo mayores de 18 años.
       </div>
 
-      {/* 1. SECCIÓN: EXCLUSIVOS MGCASINO */}
+      {/* 1. SECCIÓN: LOS MÁS DESTACADOS (Estilo bplay) */}
+      <div style={{ marginBottom: '40px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h2 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: '8px', color: 'white' }}>
+            🔥 Los Más Destacados
+          </h2>
+        </div>
+        <div className="games-grid">
+          {highlightedGames.map(game => (
+            <div 
+              key={game.id} 
+              className="glass-panel game-card"
+              onClick={() => setView(game.id)}
+              style={{ border: '1px solid rgba(0, 255, 135, 0.15)', boxShadow: '0 0 15px rgba(0, 255, 135, 0.05)' }}
+            >
+              <div className="game-card-bg" style={{ backgroundImage: `url(${game.cover})` }} />
+              
+              <div className="game-card-content" style={{ width: '100%' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
+                  <span className="badge" style={{
+                    backgroundColor: 'rgba(0, 255, 135, 0.08)',
+                    color: 'var(--gold)',
+                    border: '1px solid rgba(0, 255, 135, 0.2)'
+                  }}>RTP {game.rtp}%</span>
+                </div>
+
+                <h3 className="game-card-title" style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'white', marginBottom: '4px' }}>
+                  {game.title}
+                </h3>
+                <p className="game-card-desc" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', minHeight: '36px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                  {game.desc}
+                </p>
+                <button className="btn-gold" style={{ width: '100%', padding: '10px', fontSize: '0.85rem' }}>
+                  {game.label}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 2. SECCIÓN: EXCLUSIVOS MGCASINO */}
       <div style={{ marginBottom: '40px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <h2 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: '8px', color: 'white' }}>

@@ -262,6 +262,11 @@ async function initDb() {
     { key: 'rtp_plinko', value: '96' },
     { key: 'rtp_dice', value: '96' },
     { key: 'rtp_jokers_jewels', value: '96' },
+    { key: 'rtp_gates_mg', value: '96' },
+    { key: 'rtp_masks_fire', value: '96' },
+    { key: 'rtp_monopoly_king', value: '96' },
+    { key: 'rtp_dragon_ascension', value: '96' },
+    { key: 'rtp_fishin_pots', value: '96' },
     { key: 'admin_cvu', value: '0000003100012345678901' },
     { key: 'admin_alias', value: 'mg.casino.mp' },
     { key: 'admin_titular', value: 'MG Casino S.A.' }

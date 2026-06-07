@@ -12,7 +12,7 @@ export default function Admin() {
   const [users, setUsers] = useState([]);
   const [deposits, setDeposits] = useState([]);
   const [withdrawals, setWithdrawals] = useState([]);
-  const [rtpSettings, setRtpSettings] = useState({ rtp_mines: '95', rtp_crash: '96', rtp_slots: '94', rtp_roulette: '97.3', rtp_plinko: '96', rtp_dice: '96', rtp_jokers_jewels: '96' });
+  const [rtpSettings, setRtpSettings] = useState({ rtp_mines: '95', rtp_crash: '96', rtp_slots: '94', rtp_roulette: '97.3', rtp_plinko: '96', rtp_dice: '96', rtp_jokers_jewels: '96', rtp_gates_mg: '96', rtp_masks_fire: '96', rtp_monopoly_king: '96', rtp_dragon_ascension: '96', rtp_fishin_pots: '96' });
   const [searchTerm, setSearchTerm] = useState('');
   
   // Estados de modales / inputs temporales
@@ -835,6 +835,81 @@ export default function Admin() {
                   step="1"
                   value={rtpSettings.rtp_jokers_jewels || '96'}
                   onChange={(e) => setRtpSettings({ ...rtpSettings, rtp_jokers_jewels: e.target.value })}
+                  style={{ width: '100%', accentColor: 'var(--gold)' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '8px' }}>
+                  RTP Gates of MGCASINO (Actual: {rtpSettings.rtp_gates_mg || '96'}%)
+                </label>
+                <input 
+                  type="range" 
+                  min="50" 
+                  max="99" 
+                  step="1"
+                  value={rtpSettings.rtp_gates_mg || '96'}
+                  onChange={(e) => setRtpSettings({ ...rtpSettings, rtp_gates_mg: e.target.value })}
+                  style={{ width: '100%', accentColor: 'var(--gold)' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '8px' }}>
+                  RTP 12 Masks of Fire (Actual: {rtpSettings.rtp_masks_fire || '96'}%)
+                </label>
+                <input 
+                  type="range" 
+                  min="50" 
+                  max="99" 
+                  step="1"
+                  value={rtpSettings.rtp_masks_fire || '96'}
+                  onChange={(e) => setRtpSettings({ ...rtpSettings, rtp_masks_fire: e.target.value })}
+                  style={{ width: '100%', accentColor: 'var(--violet)' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '8px' }}>
+                  RTP Monopoly: Cash is King (Actual: {rtpSettings.rtp_monopoly_king || '96'}%)
+                </label>
+                <input 
+                  type="range" 
+                  min="50" 
+                  max="99" 
+                  step="1"
+                  value={rtpSettings.rtp_monopoly_king || '96'}
+                  onChange={(e) => setRtpSettings({ ...rtpSettings, rtp_monopoly_king: e.target.value })}
+                  style={{ width: '100%', accentColor: 'var(--gold)' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '8px' }}>
+                  RTP Area Link: Dragon (Actual: {rtpSettings.rtp_dragon_ascension || '96'}%)
+                </label>
+                <input 
+                  type="range" 
+                  min="50" 
+                  max="99" 
+                  step="1"
+                  value={rtpSettings.rtp_dragon_ascension || '96'}
+                  onChange={(e) => setRtpSettings({ ...rtpSettings, rtp_dragon_ascension: e.target.value })}
+                  style={{ width: '100%', accentColor: 'var(--violet)' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '8px' }}>
+                  RTP Fishin' Pots of Gold (Actual: {rtpSettings.rtp_fishin_pots || '96'}%)
+                </label>
+                <input 
+                  type="range" 
+                  min="50" 
+                  max="99" 
+                  step="1"
+                  value={rtpSettings.rtp_fishin_pots || '96'}
+                  onChange={(e) => setRtpSettings({ ...rtpSettings, rtp_fishin_pots: e.target.value })}
                   style={{ width: '100%', accentColor: 'var(--gold)' }}
                 />
               </div>

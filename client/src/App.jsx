@@ -17,6 +17,7 @@ import Plinko from './components/Plinko';
 import Dice from './components/Dice';
 import ProviderSlots from './components/ProviderSlots';
 import JokersJewels from './components/JokersJewels';
+import CustomSlots from './components/CustomSlots';
 
 export const AuthContext = createContext(null);
 
@@ -135,6 +136,16 @@ export default function App() {
         return user ? <ProviderSlots setView={setCurrentView} /> : <Login setView={setCurrentView} />;
       case 'game-jokers-jewels':
         return user ? <JokersJewels setView={setCurrentView} /> : <Login setView={setCurrentView} />;
+      case 'game-custom-slots-gates_mg':
+        return user ? <CustomSlots gameId="gates_mg" setView={setCurrentView} /> : <Login setView={setCurrentView} />;
+      case 'game-custom-slots-masks_fire':
+        return user ? <CustomSlots gameId="masks_fire" setView={setCurrentView} /> : <Login setView={setCurrentView} />;
+      case 'game-custom-slots-monopoly_king':
+        return user ? <CustomSlots gameId="monopoly_king" setView={setCurrentView} /> : <Login setView={setCurrentView} />;
+      case 'game-custom-slots-dragon_ascension':
+        return user ? <CustomSlots gameId="dragon_ascension" setView={setCurrentView} /> : <Login setView={setCurrentView} />;
+      case 'game-custom-slots-fishin_pots':
+        return user ? <CustomSlots gameId="fishin_pots" setView={setCurrentView} /> : <Login setView={setCurrentView} />;
       default:
         return <Home setView={setCurrentView} />;
     }
